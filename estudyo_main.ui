@@ -7,563 +7,361 @@
     <x>0</x>
     <y>0</y>
     <width>1200</width>
-    <height>750</height>
+    <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Estudyo - Student Information System</string>
+   <string>Estudyo — Student Information System</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {
-    background-color: #f5f5f5;
-}
+   <string notr="true">
+QMainWindow, QWidget { background-color: #f0f7ff; font-family: "Segoe UI", Arial, sans-serif; }
 
-/* Sidebar Styling */
 QFrame#sidebar {
-    background-color: #2c5f7f;
+    background-color: #1a3a5c;
     border: none;
-}
-
-QLabel#logoLabel {
-    background-color: white;
-    border-radius: 8px;
-    font-size: 24px;
-    color: #2c5f7f;
 }
 
 QLabel#appNameLabel {
-    color: white;
-    font-size: 24px;
+    color: #e8f4fd;
+    font-size: 22px;
     font-weight: bold;
+    padding-left: 8px;
 }
 
-/* Navigation Buttons */
-QPushButton#navButton {
-    background-color: transparent;
-    color: white;
-    border: none;
-    border-left: 4px solid transparent;
-    text-align: left;
-    padding: 16px 24px 16px 48px;
-    font-size: 15px;
-}
-
-QPushButton#navButton:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-QPushButton#navButton:checked {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-left: 4px solid #4CAF50;
-    font-weight: 600;
-}
-
-/* Header Styling */
 QFrame#headerFrame {
-    background-color: white;
-    border-bottom: 1px solid #e0e7ff;
+    background-color: #1a3a5c;
+    border-bottom: 2px solid #0d2137;
 }
 
 QLabel#headerTitle {
-    color: #2c5f7f;
+    color: #e8f4fd;
     font-size: 24px;
     font-weight: bold;
+    padding-left: 20px;
 }
 
-/* Content Area */
-QFrame#contentFrame {
-    background-color: white;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-}
-
-/* Form Sections */
 QGroupBox {
     background-color: white;
-    border: 1px solid #bbdefb;
-    border-radius: 8px;
-    margin-top: 12px;
-    padding-top: 12px;
+    border: 1.5px solid #90caf9;
+    border-radius: 10px;
+    margin-top: 14px;
+    padding-top: 14px;
     font-weight: bold;
-    color: #2c5f7f;
-    font-size: 16px;
+    color: #1a3a5c;
+    font-size: 14px;
 }
 
 QGroupBox::title {
     subcontrol-origin: margin;
     subcontrol-position: top left;
-    padding: 4px 12px;
-    color: #2c5f7f;
+    padding: 4px 14px;
+    color: #1a3a5c;
 }
 
-/* Input Fields */
-QLineEdit, QComboBox, QSpinBox {
-    padding: 10px;
-    border: 1px solid #ddd;
+QLineEdit, QComboBox {
+    padding: 8px 12px;
+    border: 1.5px solid #90caf9;
     border-radius: 6px;
     background-color: white;
-    font-size: 14px;
+    font-size: 13px;
+    min-height: 32px;
+    color: #1a3a5c;
 }
 
-QLineEdit:focus, QComboBox:focus, QSpinBox:focus {
-    border: 1px solid #2196F3;
-}
+QLineEdit:focus, QComboBox:focus { border: 1.5px solid #1565C0; }
 
-QComboBox::drop-down {
-    border: none;
-    padding-right: 10px;
-}
+QComboBox::drop-down { border: none; padding-right: 8px; }
 
-/* Labels */
-QLabel {
-    color: #333;
-    font-weight: 600;
-}
+QLabel { color: #1a3a5c; font-weight: 600; font-size: 13px; }
 
-/* Buttons */
 QPushButton {
-    padding: 10px 20px;
+    padding: 8px 18px;
     border: none;
     border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 700;
+    font-size: 13px;
+    min-height: 34px;
 }
 
-QPushButton#btnAdd, QPushButton#btnSave {
-    background-color: #4CAF50;
-    color: white;
-}
+QPushButton:disabled { background-color: #b0bec5; color: #78909c; }
 
-QPushButton#btnAdd:hover, QPushButton#btnSave:hover {
-    background-color: #45a049;
-}
-
-QPushButton#btnEdit, QPushButton#btnSearch, QPushButton#btnSort {
-    background-color: #2196F3;
-    color: white;
-}
-
-QPushButton#btnEdit:hover, QPushButton#btnSearch:hover, QPushButton#btnSort:hover {
-    background-color: #1976D2;
-}
-
-QPushButton#btnDelete, QPushButton#btnClear {
-    background-color: #f44336;
-    color: white;
-}
-
-QPushButton#btnDelete:hover, QPushButton#btnClear:hover {
-    background-color: #da190b;
-}
-
-QPushButton:disabled {
-    background-color: #cccccc;
-    color: #666666;
-}
-
-/* Table Styling */
 QTableWidget {
     background-color: white;
-    border: 1px solid #dee2e6;
+    border: 1.5px solid #90caf9;
     border-radius: 8px;
-    gridline-color: #dee2e6;
+    gridline-color: #e3f2fd;
+    alternate-background-color: #f0f8ff;
+    font-size: 13px;
 }
 
-QTableWidget::item {
-    padding: 8px;
-    border-bottom: 1px solid #dee2e6;
-}
-
-QTableWidget::item:selected {
-    background-color: #e3f2fd;
-    color: #000;
-}
-
-QTableWidget::item:hover {
-    background-color: #f8f9fa;
-}
+QTableWidget::item { padding: 8px; border-bottom: 1px solid #e3f2fd; }
+QTableWidget::item:selected { background-color: #bbdefb; color: #0d1b2a; }
+QTableWidget::item:hover { background-color: #e3f2fd; }
 
 QHeaderView::section {
-    background-color: #f8f9fa;
-    padding: 12px;
+    background-color: #1565C0;
+    color: white;
+    padding: 10px;
     border: none;
-    border-bottom: 2px solid #dee2e6;
-    font-weight: 600;
-    color: #495057;
+    border-right: 1px solid #1976D2;
+    font-weight: 700;
+    font-size: 13px;
 }
 
-/* ScrollBar */
 QScrollBar:vertical {
     border: none;
-    background: #f0f0f0;
-    width: 10px;
+    background: #e3f2fd;
+    width: 8px;
     margin: 0;
 }
-
 QScrollBar::handle:vertical {
-    background: #c0c0c0;
+    background: #90caf9;
     min-height: 20px;
-    border-radius: 5px;
+    border-radius: 4px;
+}
+QScrollBar::handle:vertical:hover { background: #42a5f5; }
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
+
+QFrame#searchFrame {
+    background-color: white;
+    border-radius: 10px;
+    border: 1.5px solid #90caf9;
 }
 
-QScrollBar::handle:vertical:hover {
-    background: #a0a0a0;
-}
-
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-    height: 0;
-}
-</string>
+QFrame#searchFrame QLabel { color: #1a3a5c; font-weight: 600; }
+   </string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>0</number>
-    </property>
-    <property name="leftMargin">
-     <number>0</number>
-    </property>
-    <property name="topMargin">
-     <number>0</number>
-    </property>
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>0</number></property>
+    <property name="topMargin"><number>0</number></property>
+    <property name="rightMargin"><number>0</number></property>
+    <property name="bottomMargin"><number>0</number></property>
+
+    <!--  SIDEBAR  -->
     <item>
      <widget class="QFrame" name="sidebar">
-      <property name="minimumSize">
-       <size>
-        <width>260</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>260</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
+      <property name="minimumSize"><size><width>230</width><height>0</height></size></property>
+      <property name="maximumSize"><size><width>230</width><height>16777215</height></size></property>
+      <layout class="QVBoxLayout" name="sidebarLayout">
+       <property name="spacing"><number>0</number></property>
+       <property name="leftMargin"><number>0</number></property>
+       <property name="topMargin"><number>0</number></property>
+       <property name="rightMargin"><number>0</number></property>
+       <property name="bottomMargin"><number>0</number></property>
+
+       <!-- Logo area -->
        <item>
         <widget class="QFrame" name="logoFrame">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="leftMargin">
-           <number>20</number>
-          </property>
-          <property name="topMargin">
-           <number>20</number>
-          </property>
-          <property name="rightMargin">
-           <number>20</number>
-          </property>
-          <property name="bottomMargin">
-           <number>20</number>
-          </property>
+         <property name="styleSheet"><string notr="true">QFrame { background-color: #0d2137; border: none; }</string></property>
+         <property name="minimumSize"><size><width>0</width><height>80</height></size></property>
+         <property name="maximumSize"><size><width>16777215</width><height>80</height></size></property>
+         <layout class="QHBoxLayout" name="logoLayout">
+          <property name="leftMargin"><number>16</number></property>
+          <property name="topMargin"><number>12</number></property>
+          <property name="rightMargin"><number>16</number></property>
+          <property name="bottomMargin"><number>12</number></property>
           <item>
            <widget class="QLabel" name="logoLabel">
-            <property name="minimumSize">
-             <size>
-              <width>48</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>48</width>
-              <height>48</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
+            <property name="minimumSize"><size><width>44</width><height>44</height></size></property>
+            <property name="maximumSize"><size><width>44</width><height>44</height></size></property>
+            <property name="text"><string/></property>
+            <property name="alignment"><set>Qt::AlignmentFlag::AlignCenter</set></property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="btnDashboard">
-            <property name="text">
-             <string>Estudyo</string>
-            </property>
+           <widget class="QLabel" name="appNameLabel">
+            <property name="text"><string>Estudyo</string></property>
            </widget>
           </item>
          </layout>
         </widget>
        </item>
+
+       <!-- Nav label -->
        <item>
-        <widget class="Line" name="line">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgba(255, 255, 255, 0.1);</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
+        <widget class="QLabel" name="navSectionLabel">
+         <property name="text"><string>  NAVIGATION</string></property>
+         <property name="styleSheet"><string notr="true">color: #64b5f6; font-size: 10px; font-weight: 700; padding: 12px 0 4px 0; letter-spacing: 1px;</string></property>
+        </widget>
+       </item>
+
+       <!-- Nav buttons -->
+       <item>
+        <widget class="QPushButton" name="navButton">
+         <property name="text"><string>  Dashboard</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="checked"><bool>true</bool></property>
+         <property name="styleSheet"><string notr="true">
+QPushButton { background-color: transparent; color: #cce4f7; border: none; border-left: 4px solid transparent; text-align: left; padding: 13px 16px; font-size: 14px; font-weight: 600; min-width: 200px; }
+QPushButton:hover { background-color: rgba(255,255,255,0.10); border-left: 4px solid #64b5f6; }
+QPushButton:checked { background-color: rgba(100,181,246,0.18); border-left: 4px solid #42a5f5; color: white; font-weight: 700; }
+         </string></property>
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="navFrame">
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>10</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="navButton">
-            <property name="text">
-             <string>Dashboard</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnManage">
-            <property name="text">
-             <string>Manage Students</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnPrograms">
-            <property name="text">
-             <string>Manage Programs</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnColleges">
-            <property name="text">
-             <string>Manage Colleges</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <widget class="QPushButton" name="btnManage">
+         <property name="text"><string>  Students</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="styleSheet"><string notr="true">
+QPushButton { background-color: transparent; color: #cce4f7; border: none; border-left: 4px solid transparent; text-align: left; padding: 13px 16px; font-size: 14px; font-weight: 600; min-width: 200px; }
+QPushButton:hover { background-color: rgba(255,255,255,0.10); border-left: 4px solid #64b5f6; }
+QPushButton:checked { background-color: rgba(100,181,246,0.18); border-left: 4px solid #42a5f5; color: white; font-weight: 700; }
+         </string></property>
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
+        <widget class="QPushButton" name="btnPrograms">
+         <property name="text"><string>  Programs</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="styleSheet"><string notr="true">
+QPushButton { background-color: transparent; color: #cce4f7; border: none; border-left: 4px solid transparent; text-align: left; padding: 13px 16px; font-size: 14px; font-weight: 600; min-width: 200px; }
+QPushButton:hover { background-color: rgba(255,255,255,0.10); border-left: 4px solid #64b5f6; }
+QPushButton:checked { background-color: rgba(100,181,246,0.18); border-left: 4px solid #42a5f5; color: white; font-weight: 700; }
+         </string></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnColleges">
+         <property name="text"><string>  Colleges</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="styleSheet"><string notr="true">
+QPushButton { background-color: transparent; color: #cce4f7; border: none; border-left: 4px solid transparent; text-align: left; padding: 13px 16px; font-size: 14px; font-weight: 600; min-width: 200px; }
+QPushButton:hover { background-color: rgba(255,255,255,0.10); border-left: 4px solid #64b5f6; }
+QPushButton:checked { background-color: rgba(100,181,246,0.18); border-left: 4px solid #42a5f5; color: white; font-weight: 700; }
+         </string></property>
+        </widget>
+       </item>
+
+       <item>
+        <spacer name="sidebarSpacer">
+         <property name="orientation"><enum>Qt::Orientation::Vertical</enum></property>
+         <property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property>
         </spacer>
+       </item>
+
+       <!-- Footer -->
+       <item>
+        <widget class="QLabel" name="sidebarFooter">
+         <property name="text"><string>  © 2025 Estudyo SIS</string></property>
+         <property name="styleSheet"><string notr="true">color: #546e7a; font-size: 11px; padding: 12px 0;</string></property>
+        </widget>
        </item>
       </layout>
      </widget>
     </item>
+
+    <!--  MAIN CONTENT  -->
     <item>
      <widget class="QFrame" name="mainContentFrame">
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
+      <layout class="QVBoxLayout" name="mainContentLayout">
+       <property name="spacing"><number>0</number></property>
+       <property name="leftMargin"><number>0</number></property>
+       <property name="topMargin"><number>0</number></property>
+       <property name="rightMargin"><number>0</number></property>
+       <property name="bottomMargin"><number>0</number></property>
+
+       <!-- Header -->
        <item>
         <widget class="QFrame" name="headerFrame">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>70</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>70</height>
-          </size>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="minimumSize"><size><width>0</width><height>65</height></size></property>
+         <property name="maximumSize"><size><width>16777215</width><height>65</height></size></property>
+         <layout class="QVBoxLayout" name="headerLayout">
+          <property name="leftMargin"><number>0</number></property>
+          <property name="topMargin"><number>0</number></property>
+          <property name="rightMargin"><number>0</number></property>
+          <property name="bottomMargin"><number>0</number></property>
           <item>
            <widget class="QLabel" name="headerTitle">
-            <property name="text">
-             <string>Student Information System</string>
-            </property>
+            <property name="text"><string>Dashboard</string></property>
+            <property name="alignment"><set>Qt::AlignmentFlag::AlignVCenter</set></property>
            </widget>
           </item>
          </layout>
         </widget>
        </item>
+
+       <!-- Stacked pages -->
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
-         <property name="currentIndex">
-          <number>3</number>
-         </property>
+         <property name="currentIndex"><number>0</number></property>
+
          <widget class="QWidget" name="pageDashboard">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <layout class="QVBoxLayout" name="dashLayout">
+           <property name="leftMargin"><number>20</number></property>
+           <property name="topMargin"><number>16</number></property>
+           <property name="rightMargin"><number>20</number></property>
+           <property name="bottomMargin"><number>16</number></property>
+           <property name="spacing"><number>12</number></property>
+
            <item>
             <widget class="QFrame" name="searchFrame">
-             <property name="styleSheet">
-              <string notr="true">QFrame {
-    background-color: white;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-}</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
+             <layout class="QVBoxLayout" name="searchLayout">
+              <property name="leftMargin"><number>14</number></property>
+              <property name="topMargin"><number>12</number></property>
+              <property name="rightMargin"><number>14</number></property>
+              <property name="bottomMargin"><number>12</number></property>
+              <property name="spacing"><number>10</number></property>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <layout class="QHBoxLayout" name="searchRow">
+                <property name="spacing"><number>10</number></property>
                 <item>
                  <widget class="QLabel" name="label">
-                  <property name="text">
-                   <string>Search by:</string>
-                  </property>
+                  <property name="text"><string> Search by:</string></property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QComboBox" name="comboSearchField">
-                  <item>
-                   <property name="text">
-                    <string>Student ID</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>First Name</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Last Name</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Program</string>
-                   </property>
-                  </item>
+                  <property name="minimumWidth"><number>120</number></property>
+                  <item><property name="text"><string>Student ID</string></property></item>
+                  <item><property name="text"><string>First Name</string></property></item>
+                  <item><property name="text"><string>Last Name</string></property></item>
+                  <item><property name="text"><string>Program</string></property></item>
                  </widget>
                 </item>
                 <item>
                  <widget class="QLineEdit" name="lineSearchInput">
-                  <property name="placeholderText">
-                   <string>Type to search...</string>
-                  </property>
+                  <property name="placeholderText"><string>Type to search...</string></property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="btnSearch">
-                  <property name="text">
-                   <string>Search</string>
-                  </property>
+                  <property name="text"><string>Search</string></property>
+                  <property name="styleSheet"><string notr="true">background-color:#1565C0;color:white;border-radius:6px;padding:8px 18px;font-weight:700; QPushButton:hover{background-color:#0d47a1;}</string></property>
                  </widget>
                 </item>
                </layout>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <layout class="QHBoxLayout" name="sortRow">
+                <property name="spacing"><number>10</number></property>
                 <item>
-                 <widget class="QLabel" name="label_2">
-                  <property name="text">
-                   <string>Sort by:</string>
-                  </property>
+                 <widget class="QLabel" name="labelSort">
+                  <property name="text"><string>⬆ Sort by:</string></property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QComboBox" name="comboSortField">
-                  <item>
-                   <property name="text">
-                    <string>Student ID</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>First Name</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Last Name</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Program</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Year Level</string>
-                   </property>
-                  </item>
+                  <property name="minimumWidth"><number>120</number></property>
+                  <item><property name="text"><string>Student ID</string></property></item>
+                  <item><property name="text"><string>First Name</string></property></item>
+                  <item><property name="text"><string>Last Name</string></property></item>
+                  <item><property name="text"><string>Program</string></property></item>
+                  <item><property name="text"><string>Year Level</string></property></item>
                  </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="btnSort">
-                  <property name="text">
-                   <string>Sort</string>
-                  </property>
+                  <property name="text"><string>Sort</string></property>
+                  <property name="styleSheet"><string notr="true">background-color:#0288d1;color:white;border-radius:6px;padding:8px 18px;font-weight:700;</string></property>
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer">
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
+                 <spacer name="sortSpacer">
+                  <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+                  <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
                  </spacer>
                 </item>
                </layout>
@@ -571,496 +369,383 @@ QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
              </layout>
             </widget>
            </item>
+
+           <!-- Students table -->
            <item>
             <widget class="QTableWidget" name="tableStudents">
-             <property name="editTriggers">
-              <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-             </property>
-             <property name="selectionMode">
-              <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
-             </property>
-             <property name="selectionBehavior">
-              <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
-             </property>
-             <column>
-              <property name="text">
-               <string>Student ID</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>First Name</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Last Name</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Program</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Year Level</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Gender</string>
-              </property>
-             </column>
+             <property name="editTriggers"><set>QAbstractItemView::EditTrigger::NoEditTriggers</set></property>
+             <property name="selectionMode"><enum>QAbstractItemView::SelectionMode::SingleSelection</enum></property>
+             <property name="selectionBehavior"><enum>QAbstractItemView::SelectionBehavior::SelectRows</enum></property>
+             <column><property name="text"><string>Student ID</string></property></column>
+             <column><property name="text"><string>First Name</string></property></column>
+             <column><property name="text"><string>Last Name</string></property></column>
+             <column><property name="text"><string>Program</string></property></column>
+             <column><property name="text"><string>Year Level</string></property></column>
+             <column><property name="text"><string>Gender</string></property></column>
             </widget>
            </item>
+
+           <!-- Action buttons -->
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <layout class="QHBoxLayout" name="dashBtnRow">
+             <property name="spacing"><number>10</number></property>
              <item>
-              <spacer name="horizontalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
+              <spacer name="dashBtnSpacer">
+               <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
               </spacer>
              </item>
              <item>
               <widget class="QPushButton" name="btnEdit">
-               <property name="text">
-                <string>Edit</string>
-               </property>
+               <property name="text"><string>  Edit Student</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#0288d1;color:white;border-radius:6px;padding:9px 22px;font-weight:700; QPushButton:hover{background-color:#01579b;}</string></property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="btnDelete">
-               <property name="text">
-                <string>Delete</string>
-               </property>
+               <property name="text"><string>  Delete Student</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#c62828;color:white;border-radius:6px;padding:9px 22px;font-weight:700; QPushButton:hover{background-color:#b71c1c;}</string></property>
               </widget>
              </item>
             </layout>
            </item>
           </layout>
          </widget>
+
+         <!-- Manage Students  -->
          <widget class="QWidget" name="pageManage">
-          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <layout class="QVBoxLayout" name="manageLayout">
+           <property name="leftMargin"><number>20</number></property>
+           <property name="topMargin"><number>16</number></property>
+           <property name="rightMargin"><number>20</number></property>
+           <property name="bottomMargin"><number>16</number></property>
+           <property name="spacing"><number>14</number></property>
            <item>
             <widget class="QGroupBox" name="groupStudent">
-             <property name="title">
-              <string>Student Information</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_3">
-                <property name="text">
-                 <string>Student ID:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="lineStudentId">
-                <property name="placeholderText">
-                 <string>e.g., 2024-0001</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>First Name:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineFirstName">
-                <property name="placeholderText">
-                 <string>Enter first name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Last Name:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLineEdit" name="lineLastName">
-                <property name="placeholderText">
-                 <string>Enter last name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Gender:</string>
-                </property>
-               </widget>
-              </item>
+             <property name="title"><string>  Add New Student</string></property>
+             <layout class="QGridLayout" name="studentFormGrid">
+              <property name="leftMargin"><number>16</number></property>
+              <property name="topMargin"><number>20</number></property>
+              <property name="rightMargin"><number>16</number></property>
+              <property name="bottomMargin"><number>16</number></property>
+              <property name="spacing"><number>10</number></property>
+              <item row="0" column="0"><widget class="QLabel" name="label_3"><property name="text"><string>Student ID:</string></property></widget></item>
+              <item row="0" column="1"><widget class="QLineEdit" name="lineStudentId"><property name="placeholderText"><string>e.g., 2024-0001</string></property></widget></item>
+              <item row="1" column="0"><widget class="QLabel" name="label_4"><property name="text"><string>First Name:</string></property></widget></item>
+              <item row="1" column="1"><widget class="QLineEdit" name="lineFirstName"><property name="placeholderText"><string>Enter first name</string></property></widget></item>
+              <item row="2" column="0"><widget class="QLabel" name="label_5"><property name="text"><string>Last Name:</string></property></widget></item>
+              <item row="2" column="1"><widget class="QLineEdit" name="lineLastName"><property name="placeholderText"><string>Enter last name</string></property></widget></item>
+              <item row="0" column="2"><widget class="QLabel" name="label_6"><property name="text"><string>Gender:</string></property></widget></item>
               <item row="0" column="3">
                <widget class="QComboBox" name="comboGender">
-                <item>
-                 <property name="text">
-                  <string>Male</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Female</string>
-                 </property>
-                </item>
+                <item><property name="text"><string>Male</string></property></item>
+                <item><property name="text"><string>Female</string></property></item>
                </widget>
               </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>Program:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QComboBox" name="comboProgramCode"/>
-              </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string>Year Level:</string>
-                </property>
-               </widget>
-              </item>
+              <item row="1" column="2"><widget class="QLabel" name="label_7"><property name="text"><string>Program:</string></property></widget></item>
+              <item row="1" column="3"><widget class="QComboBox" name="comboProgramCode"/></item>
+              <item row="2" column="2"><widget class="QLabel" name="label_8"><property name="text"><string>Year Level:</string></property></widget></item>
               <item row="2" column="3">
                <widget class="QComboBox" name="comboYearLevel">
-                <item>
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>2</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>3</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>4</string>
-                 </property>
-                </item>
+                <item><property name="text"><string>1</string></property></item>
+                <item><property name="text"><string>2</string></property></item>
+                <item><property name="text"><string>3</string></property></item>
+                <item><property name="text"><string>4</string></property></item>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <layout class="QHBoxLayout" name="studentBtnRow">
+             <property name="spacing"><number>10</number></property>
              <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
+              <spacer name="studentBtnSpacer">
+               <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="btnAdd">
-               <property name="text">
-                <string>Add Student</string>
-               </property>
+              <widget class="QPushButton" name="btnAddStudent">
+               <property name="text"><string>  Add Student</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#1565C0;color:white;border-radius:6px;padding:9px 24px;font-weight:700; QPushButton:hover{background-color:#0d47a1;}</string></property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnClear">
-               <property name="text">
-                <string>Clear Form</string>
-               </property>
+              <widget class="QPushButton" name="btnClearStudent">
+               <property name="text"><string>Clear Form</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#546e7a;color:white;border-radius:6px;padding:9px 20px;font-weight:700; QPushButton:hover{background-color:#37474f;}</string></property>
               </widget>
              </item>
             </layout>
            </item>
            <item>
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
+            <spacer name="manageSpacer">
+             <property name="orientation"><enum>Qt::Orientation::Vertical</enum></property>
+             <property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property>
             </spacer>
            </item>
           </layout>
          </widget>
+
+         <!--  Manage Programs  -->
          <widget class="QWidget" name="pagePrograms">
-          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <layout class="QVBoxLayout" name="programsLayout">
+           <property name="leftMargin"><number>20</number></property>
+           <property name="topMargin"><number>16</number></property>
+           <property name="rightMargin"><number>20</number></property>
+           <property name="bottomMargin"><number>16</number></property>
+           <property name="spacing"><number>12</number></property>
+
+           <!-- Add program form -->
            <item>
             <widget class="QGroupBox" name="groupProgram">
-             <property name="title">
-              <string>Program Information</string>
-             </property>
-             <layout class="QFormLayout" name="formLayout">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string>Program Code:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="lineProgramCode">
-                <property name="placeholderText">
-                 <string>e.g., BSCS</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string>Program Name:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineProgramName">
-                <property name="placeholderText">
-                 <string>e.g., Bachelor of Science in Computer Science</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>College:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QComboBox" name="comboCollegeCode"/>
-              </item>
+             <property name="title"><string>  Add New Program</string></property>
+             <layout class="QFormLayout" name="programForm">
+              <property name="leftMargin"><number>16</number></property>
+              <property name="topMargin"><number>20</number></property>
+              <property name="rightMargin"><number>16</number></property>
+              <property name="bottomMargin"><number>16</number></property>
+              <property name="horizontalSpacing"><number>16</number></property>
+              <property name="verticalSpacing"><number>10</number></property>
+              <item row="0" column="0"><widget class="QLabel" name="label_9"><property name="text"><string>Program Code:</string></property></widget></item>
+              <item row="0" column="1"><widget class="QLineEdit" name="lineProgramCode"><property name="placeholderText"><string>e.g., BSCS</string></property></widget></item>
+              <item row="1" column="0"><widget class="QLabel" name="label_10"><property name="text"><string>Program Name:</string></property></widget></item>
+              <item row="1" column="1"><widget class="QLineEdit" name="lineProgramName"><property name="placeholderText"><string>e.g., Bachelor of Science in Computer Science</string></property></widget></item>
+              <item row="2" column="0"><widget class="QLabel" name="label_11"><property name="text"><string>College:</string></property></widget></item>
+              <item row="2" column="1"><widget class="QComboBox" name="comboCollegeCode"/></item>
              </layout>
             </widget>
            </item>
+
+           <!-- Buttons row -->
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <layout class="QHBoxLayout" name="progBtnRow">
+             <property name="spacing"><number>10</number></property>
              <item>
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
+              <spacer name="progBtnSpacer">
+               <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="btnAdd">
-               <property name="text">
-                <string>Add Program</string>
-               </property>
+              <widget class="QPushButton" name="btnAddProgram">
+               <property name="text"><string>  Add Program</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#1565C0;color:white;border-radius:6px;padding:9px 22px;font-weight:700;</string></property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnClear">
-               <property name="text">
-                <string>Clear Form</string>
-               </property>
+              <widget class="QPushButton" name="btnClearProgram">
+               <property name="text"><string>Clear Form</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#546e7a;color:white;border-radius:6px;padding:9px 18px;font-weight:700;</string></property>
               </widget>
              </item>
             </layout>
            </item>
+
+           <!-- Search/sort for programs -->
+           <item>
+            <widget class="QFrame" name="progSearchFrame">
+             <property name="styleSheet"><string notr="true">QFrame{background-color:white;border-radius:8px;border:1.5px solid #90caf9;}</string></property>
+             <layout class="QHBoxLayout" name="progSearchLayout">
+              <property name="leftMargin"><number>12</number></property>
+              <property name="topMargin"><number>8</number></property>
+              <property name="rightMargin"><number>12</number></property>
+              <property name="bottomMargin"><number>8</number></property>
+              <property name="spacing"><number>10</number></property>
+              <item><widget class="QLabel" name="labelProgSearch"><property name="text"><string> Search:</string></property></widget></item>
+              <item><widget class="QLineEdit" name="lineSearchProgram"><property name="placeholderText"><string>Search programs...</string></property></widget></item>
+              <item>
+               <widget class="QPushButton" name="btnSearchProgram">
+                <property name="text"><string>Search</string></property>
+                <property name="styleSheet"><string notr="true">background-color:#1565C0;color:white;border-radius:6px;padding:7px 16px;font-weight:700;</string></property>
+               </widget>
+              </item>
+              <item><widget class="QLabel" name="labelProgSort"><property name="text"><string>⬆ Sort:</string></property></widget></item>
+              <item>
+               <widget class="QComboBox" name="comboSortProgram">
+                <property name="minimumWidth"><number>130</number></property>
+                <item><property name="text"><string>Program Code</string></property></item>
+                <item><property name="text"><string>Program Name</string></property></item>
+                <item><property name="text"><string>College Code</string></property></item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnSortProgram">
+                <property name="text"><string>Sort</string></property>
+                <property name="styleSheet"><string notr="true">background-color:#0288d1;color:white;border-radius:6px;padding:7px 16px;font-weight:700;</string></property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- Programs table -->
            <item>
             <widget class="QTableWidget" name="tablePrograms">
-             <property name="editTriggers">
-              <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-             </property>
-             <property name="selectionMode">
-              <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
-             </property>
-             <property name="selectionBehavior">
-              <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
-             </property>
-             <column>
-              <property name="text">
-               <string>Program Code</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Program Name</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>College Code</string>
-              </property>
-             </column>
+             <property name="editTriggers"><set>QAbstractItemView::EditTrigger::NoEditTriggers</set></property>
+             <property name="selectionMode"><enum>QAbstractItemView::SelectionMode::SingleSelection</enum></property>
+             <property name="selectionBehavior"><enum>QAbstractItemView::SelectionBehavior::SelectRows</enum></property>
+             <column><property name="text"><string>Program Code</string></property></column>
+             <column><property name="text"><string>Program Name</string></property></column>
+             <column><property name="text"><string>College Code</string></property></column>
             </widget>
            </item>
+
+           <!-- Edit/Delete -->
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <layout class="QHBoxLayout" name="progActBtnRow">
+             <property name="spacing"><number>10</number></property>
              <item>
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
+              <spacer name="progActSpacer">
+               <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="btnDelete">
-               <property name="text">
-                <string>Delete Program</string>
-               </property>
+              <widget class="QPushButton" name="btnEditProgram">
+               <property name="text"><string>  Edit Program</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#0288d1;color:white;border-radius:6px;padding:9px 22px;font-weight:700;</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnDeleteProgram">
+               <property name="text"><string>  Delete Program</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#c62828;color:white;border-radius:6px;padding:9px 22px;font-weight:700;</string></property>
               </widget>
              </item>
             </layout>
            </item>
           </layout>
          </widget>
+
+         <!-- Manage Colleges  -->
          <widget class="QWidget" name="pageColleges">
-          <layout class="QVBoxLayout" name="verticalLayout_9">
+          <layout class="QVBoxLayout" name="collegesLayout">
+           <property name="leftMargin"><number>20</number></property>
+           <property name="topMargin"><number>16</number></property>
+           <property name="rightMargin"><number>20</number></property>
+           <property name="bottomMargin"><number>16</number></property>
+           <property name="spacing"><number>12</number></property>
+
+           <!-- Add college form -->
            <item>
             <widget class="QGroupBox" name="groupCollege">
-             <property name="title">
-              <string>College Information</string>
-             </property>
-             <layout class="QFormLayout" name="formLayout_2">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_12">
-                <property name="text">
-                 <string>College Code:</string>
-                </property>
+             <property name="title"><string>  Add New College</string></property>
+             <layout class="QFormLayout" name="collegeForm">
+              <property name="leftMargin"><number>16</number></property>
+              <property name="topMargin"><number>20</number></property>
+              <property name="rightMargin"><number>16</number></property>
+              <property name="bottomMargin"><number>16</number></property>
+              <property name="horizontalSpacing"><number>16</number></property>
+              <property name="verticalSpacing"><number>10</number></property>
+              <item row="0" column="0"><widget class="QLabel" name="label_12"><property name="text"><string>College Code:</string></property></widget></item>
+              <item row="0" column="1"><widget class="QLineEdit" name="lineCollegeCode"><property name="placeholderText"><string>e.g., CCS</string></property></widget></item>
+              <item row="1" column="0"><widget class="QLabel" name="label_13"><property name="text"><string>College Name:</string></property></widget></item>
+              <item row="1" column="1"><widget class="QLineEdit" name="lineCollegeName"><property name="placeholderText"><string>e.g., College of Computer Studies</string></property></widget></item>
+             </layout>
+            </widget>
+           </item>
+
+           <!-- Buttons -->
+           <item>
+            <layout class="QHBoxLayout" name="colBtnRow">
+             <property name="spacing"><number>10</number></property>
+             <item>
+              <spacer name="colBtnSpacer">
+               <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnAddCollege">
+               <property name="text"><string>  Add College</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#1565C0;color:white;border-radius:6px;padding:9px 22px;font-weight:700;</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnClearCollege">
+               <property name="text"><string>Clear Form</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#546e7a;color:white;border-radius:6px;padding:9px 18px;font-weight:700;</string></property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+
+           <!-- Search/sort for colleges -->
+           <item>
+            <widget class="QFrame" name="colSearchFrame">
+             <property name="styleSheet"><string notr="true">QFrame{background-color:white;border-radius:8px;border:1.5px solid #90caf9;}</string></property>
+             <layout class="QHBoxLayout" name="colSearchLayout">
+              <property name="leftMargin"><number>12</number></property>
+              <property name="topMargin"><number>8</number></property>
+              <property name="rightMargin"><number>12</number></property>
+              <property name="bottomMargin"><number>8</number></property>
+              <property name="spacing"><number>10</number></property>
+              <item><widget class="QLabel" name="labelColSearch"><property name="text"><string> Search:</string></property></widget></item>
+              <item><widget class="QLineEdit" name="lineSearchCollege"><property name="placeholderText"><string>Search colleges...</string></property></widget></item>
+              <item>
+               <widget class="QPushButton" name="btnSearchCollege">
+                <property name="text"><string>Search</string></property>
+                <property name="styleSheet"><string notr="true">background-color:#1565C0;color:white;border-radius:6px;padding:7px 16px;font-weight:700;</string></property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="lineCollegeCode">
-                <property name="placeholderText">
-                 <string>e.g., CCS</string>
-                </property>
+              <item><widget class="QLabel" name="labelColSort"><property name="text"><string> Sort:</string></property></widget></item>
+              <item>
+               <widget class="QComboBox" name="comboSortCollege">
+                <property name="minimumWidth"><number>130</number></property>
+                <item><property name="text"><string>College Code</string></property></item>
+                <item><property name="text"><string>College Name</string></property></item>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>College Name:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineCollegeName">
-                <property name="placeholderText">
-                 <string>e.g., College of Computer Studies</string>
-                </property>
+              <item>
+               <widget class="QPushButton" name="btnSortCollege">
+                <property name="text"><string>Sort</string></property>
+                <property name="styleSheet"><string notr="true">background-color:#0288d1;color:white;border-radius:6px;padding:7px 16px;font-weight:700;</string></property>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
-             <item>
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btnAdd">
-               <property name="text">
-                <string>Add College</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btnClear">
-               <property name="text">
-                <string>Clear Form</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
+
+           <!-- Colleges table -->
            <item>
             <widget class="QTableWidget" name="tableColleges">
-             <property name="editTriggers">
-              <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-             </property>
-             <property name="selectionMode">
-              <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
-             </property>
-             <property name="selectionBehavior">
-              <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
-             </property>
-             <column>
-              <property name="text">
-               <string>College Code</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>College Name</string>
-              </property>
-             </column>
+             <property name="editTriggers"><set>QAbstractItemView::EditTrigger::NoEditTriggers</set></property>
+             <property name="selectionMode"><enum>QAbstractItemView::SelectionMode::SingleSelection</enum></property>
+             <property name="selectionBehavior"><enum>QAbstractItemView::SelectionBehavior::SelectRows</enum></property>
+             <column><property name="text"><string>College Code</string></property></column>
+             <column><property name="text"><string>College Name</string></property></column>
             </widget>
            </item>
+
+           <!-- Edit/Delete -->
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <layout class="QHBoxLayout" name="colActBtnRow">
+             <property name="spacing"><number>10</number></property>
              <item>
-              <spacer name="horizontalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
+              <spacer name="colActSpacer">
+               <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="btnDelete">
-               <property name="text">
-                <string>Delete College</string>
-               </property>
+              <widget class="QPushButton" name="btnEditCollege">
+               <property name="text"><string>  Edit College</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#0288d1;color:white;border-radius:6px;padding:9px 22px;font-weight:700;</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnDeleteCollege">
+               <property name="text"><string>  Delete College</string></property>
+               <property name="styleSheet"><string notr="true">background-color:#c62828;color:white;border-radius:6px;padding:9px 22px;font-weight:700;</string></property>
               </widget>
              </item>
             </layout>
            </item>
           </layout>
          </widget>
+
         </widget>
        </item>
       </layout>
