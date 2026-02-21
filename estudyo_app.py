@@ -97,7 +97,7 @@ class CSVManager:
     def college_has_programs(self, code):
         return any(p["college_code"] == code for p in self.read_programs())
 
-    # ── Program operations ──
+    #  Program operations
     def add_program(self, code, name, college_code):
         programs = self.read_programs()
         if any(p["code"] == code for p in programs):
@@ -115,7 +115,7 @@ class CSVManager:
                 p["name"] = new_name
                 p["college_code"] = new_college_code
         self.write_programs(programs)
-        # Update program_code references in students
+
         if old_code != new_code:
             students = self.read_students()
             for s in students:
@@ -125,7 +125,7 @@ class CSVManager:
 
     def delete_program(self, code):
         self.write_programs([p for p in self.read_programs() if p["code"] != code])
-        # Nullify program_code in students
+
         students = self.read_students()
         for s in students:
             if s["program_code"] == code:
@@ -135,7 +135,7 @@ class CSVManager:
     def program_has_students(self, code):
         return any(s["program_code"] == code for s in self.read_students())
 
-    # ── Student operations ──
+    #  Student operations
     def add_student(self, sid, first_name, last_name, gender, program_code, year_level):
         students = self.read_students()
         if any(s["id"] == sid for s in students):
@@ -180,7 +180,7 @@ class CSVManager:
         return sorted(self.read_programs(), key=lambda p: p.get(field, "").lower())
 
 
-# ─────────────────────────── Edit Dialogs ─────────────────────────────────────
+#  Edit Dialogs
 
 DIALOG_STYLE = """
 QDialog { background-color: #f0f7ff; }
@@ -229,7 +229,6 @@ QPushButton#btnCancelDialog {
 }
 QPushButton#btnCancelDialog:hover { background-color: #cfd8dc; }
 """
-
 
 class EditStudentDialog(QDialog):
     def __init__(self, parent, student, programs):
@@ -300,7 +299,6 @@ class EditStudentDialog(QDialog):
             "program_code": self.comboProgram.currentData(),
             "year_level": self.comboYear.currentText(),
         }
-
 
 class EditCollegeDialog(QDialog):
     def __init__(self, parent, college):
@@ -374,7 +372,7 @@ class EditProgramDialog(QDialog):
 
         btnRow = QHBoxLayout()
         btnRow.addStretch()
-        btnSave = QPushButton("💾  Save Changes")
+        btnSave = QPushButton("Save Changes")
         btnSave.setObjectName("btnSaveDialog")
         btnCancel = QPushButton("Cancel")
         btnCancel.setObjectName("btnCancelDialog")
@@ -393,7 +391,7 @@ class EditProgramDialog(QDialog):
         }
 
 
-# ─────────────────────────── Main Application ─────────────────────────────────
+#  Main Application
 
 class EstudyoApp(QtWidgets.QMainWindow):
     def __init__(self):
@@ -419,19 +417,10 @@ class EstudyoApp(QtWidgets.QMainWindow):
             if os.path.exists(path):
                 pixmap = QPixmap(path)
                 self.logoLabel.setPixmap(
-                    pixmap.scaled(48, 48, Qt.AspectRatioMode.KeepAspectRatio,
-                                  Qt.TransformationMode.SmoothTransformation)
+                    pixmap.scaled(48, 48, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
                 )
                 self.logoLabel.setScaledContents(False)
                 break
-
-        # Set icons on nav buttons
-        icon_map = {
-            "navButton":   ("icons/student.svg"),
-            "btnManage":   ("icons/student.svg"),
-            "btnPrograms": ("icons/program.svg"),
-            "btnColleges": ("icons/college.svg"),
-        }
 
         self._apply_extra_styles()
 
@@ -555,41 +544,35 @@ class EstudyoApp(QtWidgets.QMainWindow):
             self.comboCollegeCode.addItem(f"{c['code']} - {c['name']}", c["code"])
 
     def setup_connections(self):
-        # Sidebar navigation
         self.navButton.clicked.connect(lambda: self.switch_page(0, "Dashboard"))
         self.btnManage.clicked.connect(lambda: self.switch_page(1, "Students"))
         self.btnPrograms.clicked.connect(lambda: self.switch_page(2, "Programs"))
         self.btnColleges.clicked.connect(lambda: self.switch_page(3, "Colleges"))
 
-        # Dashboard buttons
         self.btnSearch.clicked.connect(self.search_students)
         self.btnSort.clicked.connect(self.sort_students)
         self.btnEdit.clicked.connect(self.edit_student_from_dashboard)
         self.btnDelete.clicked.connect(self.delete_student_from_dashboard)
 
-        # Manage Students page — new unique objectNames
         self.btnAddStudent.clicked.connect(self.add_student)
         self.btnClearStudent.clicked.connect(self.clear_student_form)
 
-        # Programs page — new unique objectNames
         self.btnAddProgram.clicked.connect(self.add_program)
         self.btnClearProgram.clicked.connect(self.clear_program_form)
         self.btnEditProgram.clicked.connect(self.edit_program_from_table)
         self.btnDeleteProgram.clicked.connect(self.delete_program)
 
-        # Colleges page — new unique objectNames
         self.btnAddCollege.clicked.connect(self.add_college)
         self.btnClearCollege.clicked.connect(self.clear_college_form)
         self.btnEditCollege.clicked.connect(self.edit_college_from_table)
         self.btnDeleteCollege.clicked.connect(self.delete_college)
 
-        # Search & Sort for Programs/Colleges
         self.btnSearchProgram.clicked.connect(self.search_programs_table)
         self.btnSortProgram.clicked.connect(self.sort_programs_table)
         self.btnSearchCollege.clicked.connect(self.search_colleges_table)
         self.btnSortCollege.clicked.connect(self.sort_colleges_table)
 
-    # ── Navigation ──────────────────────────────────────────────────────────
+    #  Navigation
     def switch_page(self, index, title):
         self.stackedWidget.setCurrentIndex(index)
         self.headerTitle.setText(title)
@@ -607,15 +590,14 @@ class EstudyoApp(QtWidgets.QMainWindow):
         self.load_programs()
         self.load_students()
 
-    # ── Data loaders ────────────────────────────────────────────────────────
+    #  Data loaders
     def load_students(self, students=None):
         if students is None:
             students = self.csv.read_students()
         self.tableStudents.setRowCount(0)
         for r, s in enumerate(students):
             self.tableStudents.insertRow(r)
-            for c, val in enumerate([s["id"], s["first_name"], s["last_name"],
-                                      s["program_code"], s["year_level"], s["gender"]]):
+            for c, val in enumerate([s["id"], s["first_name"], s["last_name"], s["program_code"], s["year_level"], s["gender"]]):
                 item = QTableWidgetItem(val)
                 item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.tableStudents.setItem(r, c, item)
@@ -642,7 +624,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
                 item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.tableColleges.setItem(r, c, item)
 
-    # ── Dashboard ────────────────────────────────────────────────────────────
+    #  Dashboard
     def search_students(self):
         field_map = {
             "Student ID": "id",
@@ -719,7 +701,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
             QMessageBox.information(self, " Deleted", "Student deleted successfully!")
             self.load_students()
 
-    # ── Manage Students ──────────────────────────────────────────────────────
+    #  Manage Students
     def add_student(self):
         sid          = self.lineStudentId.text().strip()
         first_name   = self.lineFirstName.text().strip()
@@ -747,7 +729,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         self.comboProgramCode.setCurrentIndex(0)
         self.comboYearLevel.setCurrentIndex(0)
 
-    # ── Programs page ────────────────────────────────────────────────────────
+    #  Programs
     def add_program(self):
         code         = self.lineProgramCode.text().strip().upper()
         name         = self.lineProgramName.text().strip()
@@ -798,8 +780,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         msg = (f"Are you sure you want to delete program '{code}'?\n\n"
                + ("  Students enrolled in this program will have their program set to null."
                   if has_students else ""))
-        reply = QMessageBox.question(self, "Confirm Delete", msg,
-                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        reply = QMessageBox.question(self, "Confirm Delete", msg, QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         if reply == QMessageBox.StandardButton.Yes:
             self.csv.delete_program(code)
             QMessageBox.information(self, " Deleted", "Program deleted successfully!")
@@ -826,7 +807,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         field = field_map.get(self.comboSortProgram.currentText(), "code")
         self.load_programs(self.csv.sort_programs(field))
 
-    #  Colleges page
+    #  Colleges
     def add_college(self):
         code = self.lineCollegeCode.text().strip().upper()
         name = self.lineCollegeName.text().strip()
