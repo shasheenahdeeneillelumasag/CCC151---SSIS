@@ -1,4 +1,5 @@
 id,first_name,last_name,gender,program_code,year_level
 2024-0001,Shasheenah Deeneille,Lumasag,Female,BSCS,3
 2022-1234,Nathan,Abueg,Male,BSCS,4
-1234-7894,kjk,jiji,Male,BSCE,1
+1234-7894,kjk,jiji,Male,-Null-,1
+1215,nkn,jjio,Male,BSCS,1

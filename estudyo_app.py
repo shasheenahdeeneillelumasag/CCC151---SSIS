@@ -5,10 +5,10 @@ from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import (
     QMessageBox, QTableWidgetItem, QHeaderView, QAbstractItemView,
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout, QLabel,
-    QLineEdit, QComboBox, QPushButton, QDialogButtonBox, QGroupBox
+    QLineEdit, QComboBox, QPushButton,  QDialogButtonBox, QGroupBox
 )
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 
 # CSV file paths
 COLLEGES_CSV = "colleges.csv"
@@ -179,9 +179,7 @@ class CSVManager:
     def sort_programs(self, field):
         return sorted(self.read_programs(), key=lambda p: p.get(field, "").lower())
 
-
 #  Edit Dialogs
-
 DIALOG_STYLE = """
 QDialog { background-color: #f0f7ff; }
 QGroupBox {
@@ -229,7 +227,6 @@ QPushButton#btnCancelDialog {
 }
 QPushButton#btnCancelDialog:hover { background-color: #cfd8dc; }
 """
-
 class EditStudentDialog(QDialog):
     def __init__(self, parent, student, programs):
         super().__init__(parent)
@@ -392,12 +389,12 @@ class EditProgramDialog(QDialog):
 
 
 #  Main Application
-
 class EstudyoApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.csv = CSVManager()
         uic.loadUi("estudyo_main.ui", self)
+        self.setWindowIcon(QIcon("icons/estudyo_logo.svg"))
 
         self.setup_ui()
         self.setup_connections()
@@ -751,8 +748,8 @@ class EstudyoApp(QtWidgets.QMainWindow):
         if selected < 0:
             QMessageBox.warning(self, "No Selection", "Please select a program to edit.")
             return
-        code         = self.tablePrograms.item(selected, 0).text()
-        name         = self.tablePrograms.item(selected, 1).text()
+        code = self.tablePrograms.item(selected, 0).text()
+        name = self.tablePrograms.item(selected, 1).text()
         college_code = self.tablePrograms.item(selected, 2).text()
         program = {"code": code, "name": name, "college_code": college_code}
         colleges = self.csv.read_colleges()
