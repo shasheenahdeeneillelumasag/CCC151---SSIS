@@ -1,5 +1,7 @@
 id,first_name,last_name,gender,program_code,year_level
-2024-0001,Shasheenah Deeneille,Lumasag,Female,BSCS,3
-2022-1234,Nathan,Abueg,Male,BSCS,4
+2024-0001,Shasheenah Deeneille,Lumasag,Female,-Null-,3
+2022-1234,Nathan,Abueg,Male,-Null-,4
 1234-7894,kjk,jiji,Male,-Null-,1
-1215,nkn,jjio,Male,BSCS,1
+1215,nkn,jjio,Male,-Null-,1
+2024-0001A,SHaashahs,sahshajsh,Male,BSIS,1
+2023-0483,Shashe,Luma122,Male,-Null-,1

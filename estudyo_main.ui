@@ -180,13 +180,6 @@ QFrame#searchFrame QLabel { color: #1a3a5c; font-weight: 600; }
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QFrame" name="logoFrame">
          <property name="minimumSize">
           <size>
@@ -399,7 +392,7 @@ px;&quot;&gt;
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="pageDashboard">
           <layout class="QVBoxLayout" name="dashLayout">

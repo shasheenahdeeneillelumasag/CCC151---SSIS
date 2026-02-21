@@ -245,7 +245,6 @@ class EditStudentDialog(QDialog):
         form.setContentsMargins(16, 20, 16, 16)
 
         self.lineId = QLineEdit(student["id"])
-        self.lineId.setReadOnly(True)
         self.lineId.setStyleSheet("background-color: #e3f2fd; color: #546e7a;")
         self.lineFirst = QLineEdit(student["first_name"])
         self.lineLast = QLineEdit(student["last_name"])
@@ -406,7 +405,6 @@ class EstudyoApp(QtWidgets.QMainWindow):
         self.setup_table_properties(self.tablePrograms)
         self.setup_table_properties(self.tableColleges)
         self.stackedWidget.setCurrentIndex(0)
-        self.headerTitle.setText("Dashboard")
         self.populate_combo_boxes()
 
         # Load logo
@@ -665,7 +663,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
 
         student = {
             "id": sid, "first_name": first_name, "last_name": last_name,
-            "gender": gender, "program_code": program_code, "year_level": year_level,
+            "gender": gender, "program_code": program_code, "year_level": year_level
         }
         programs = self.csv.read_programs()
         dialog = EditStudentDialog(self, student, programs)
