@@ -7,13 +7,15 @@ from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout, QLabel,
     QLineEdit, QComboBox, QPushButton,  QDialogButtonBox, QGroupBox
 )
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtCore import Qt, QRegularExpression
+from PyQt6.QtGui import QPixmap, QIcon, QRegularExpressionValidator, QColor
 
 # CSV file paths
 COLLEGES_CSV = "colleges.csv"
 PROGRAMS_CSV = "programs.csv"
 STUDENTS_CSV = "students.csv"
+
+NULL_DISPLAY = "-NULL-"
 
 #  CSV Manager
 class CSVManager:
@@ -91,7 +93,7 @@ class CSVManager:
         programs = self.read_programs()
         for p in programs:
             if p["college_code"] == code:
-                p["college_code"] = "-Null-"
+                p["college_code"] = NULL_DISPLAY
         self.write_programs(programs)
 
     def college_has_programs(self, code):
@@ -129,7 +131,7 @@ class CSVManager:
         students = self.read_students()
         for s in students:
             if s["program_code"] == code:
-                s["program_code"] = "-Null-"
+                s["program_code"] = NULL_DISPLAY
         self.write_students(students)
 
     def program_has_students(self, code):
@@ -144,10 +146,13 @@ class CSVManager:
                          "gender": gender, "program_code": program_code, "year_level": year_level})
         self.write_students(students)
 
-    def edit_student(self, old_id, first_name, last_name, gender, program_code, year_level):
+    def edit_student(self, old_id, new_id, first_name, last_name, gender, program_code, year_level):
         students = self.read_students()
+        if new_id != old_id and any(s["id"] == new_id for s in students):
+            raise ValueError("Student ID already exists!")
         for s in students:
             if s["id"] == old_id:
+                s["id"] = new_id
                 s["first_name"] = first_name
                 s["last_name"] = last_name
                 s["gender"] = gender
@@ -227,13 +232,65 @@ QPushButton#btnCancelDialog {
 }
 QPushButton#btnCancelDialog:hover { background-color: #cfd8dc; }
 """
+
+def _is_null(val):
+    """Check if a value is a null sentinel."""
+    return val.strip().upper() in ("-NULL-", "-Null-", "NULL", "")
+
+
+def _apply_student_id_validator(line_edit):
+    """Apply XXXX-XXXX numeric validator to a QLineEdit."""
+    rx = QRegularExpression(r"^\d{0,4}-?\d{0,4}$")
+    validator = QRegularExpressionValidator(rx)
+    line_edit.setValidator(validator)
+
+    def _format_on_change(text):
+        digits = text.replace("-", "")
+        if len(digits) > 4:
+            formatted = digits[:4] + "-" + digits[4:8]
+            if text != formatted:
+                line_edit.blockSignals(True)
+                line_edit.setText(formatted)
+                line_edit.setCursorPosition(len(formatted))
+                line_edit.blockSignals(False)
+
+    line_edit.textChanged.connect(_format_on_change)
+
+
+def _validate_student_id_format(sid):
+    """Return True if sid matches XXXX-XXXX with only digits."""
+    import re
+    return bool(re.fullmatch(r"\d{4}-\d{4}", sid))
+
+
+def _apply_code_validator(line_edit):
+    """Restrict a QLineEdit to letters, spaces, and parentheses only — auto-uppercased."""
+    rx = QRegularExpression(r"^[A-Za-z ()\s]*$")
+    validator = QRegularExpressionValidator(rx)
+    line_edit.setValidator(validator)
+    line_edit.textChanged.connect(
+        lambda t: (line_edit.blockSignals(True),
+                   line_edit.setText(t.upper()),
+                   line_edit.blockSignals(False))
+        if t != t.upper() else None
+    )
+
+
+def _apply_name_validator(line_edit):
+    """Restrict a QLineEdit to letters, spaces, and parentheses only — no digits or special chars. No auto-caps."""
+    rx = QRegularExpression(r"^[A-Za-z ()\s]*$")
+    validator = QRegularExpressionValidator(rx)
+    line_edit.setValidator(validator)
+
+
 class EditStudentDialog(QDialog):
-    def __init__(self, parent, student, programs):
+    def __init__(self, parent, student, programs, all_students=None):
         super().__init__(parent)
         self.setWindowTitle("Edit Student")
         self.setMinimumWidth(480)
         self.setStyleSheet(DIALOG_STYLE)
         self.student = student
+        self.all_students = all_students or []
 
         layout = QVBoxLayout(self)
         layout.setSpacing(16)
@@ -245,7 +302,8 @@ class EditStudentDialog(QDialog):
         form.setContentsMargins(16, 20, 16, 16)
 
         self.lineId = QLineEdit(student["id"])
-        self.lineId.setStyleSheet("background-color: #e3f2fd; color: #546e7a;")
+        _apply_student_id_validator(self.lineId)
+
         self.lineFirst = QLineEdit(student["first_name"])
         self.lineLast = QLineEdit(student["last_name"])
         self.comboGender = QComboBox()
@@ -254,12 +312,19 @@ class EditStudentDialog(QDialog):
         if idx >= 0: self.comboGender.setCurrentIndex(idx)
 
         self.comboProgram = QComboBox()
+        prog_code = student["program_code"]
+        if _is_null(prog_code):
+            self.comboProgram.addItem(NULL_DISPLAY, NULL_DISPLAY)
         for p in programs:
             self.comboProgram.addItem(f"{p['code']} - {p['name']}", p["code"])
+        matched = False
         for i in range(self.comboProgram.count()):
-            if self.comboProgram.itemData(i) == student["program_code"]:
+            if self.comboProgram.itemData(i) == prog_code:
                 self.comboProgram.setCurrentIndex(i)
+                matched = True
                 break
+        if not matched:
+            self.comboProgram.setCurrentIndex(0)
 
         self.comboYear = QComboBox()
         self.comboYear.addItems(["1", "2", "3", "4"])
@@ -284,11 +349,36 @@ class EditStudentDialog(QDialog):
         btnRow.addWidget(btnSave)
         layout.addLayout(btnRow)
 
-        btnSave.clicked.connect(self.accept)
+        btnSave.clicked.connect(self._on_save)
         btnCancel.clicked.connect(self.reject)
+
+    def _on_save(self):
+        sid = self.lineId.text().strip()
+        first = self.lineFirst.text().strip()
+        last = self.lineLast.text().strip()
+
+        if not all([sid, first, last]):
+            QMessageBox.warning(self, "Input Error", "Please fill in all input fields.")
+            return
+
+        if not _validate_student_id_format(sid):
+            QMessageBox.warning(self, "Invalid ID",
+                                "Student ID must be in the format XXXX-XXXX (digits only, e.g. 2024-0001).")
+            return
+
+        old_id = self.student["id"]
+        if sid != old_id:
+            if any(s["id"] == sid for s in self.all_students):
+                QMessageBox.warning(self, "Duplicate ID",
+                                    f"Student ID '{sid}' already exists. Please use a different ID.")
+                self.lineId.setStyleSheet("background-color: #ffebee; color: #c62828; border: 1.5px solid #c62828;")
+                return
+
+        self.accept()
 
     def get_data(self):
         return {
+            "id": self.lineId.text().strip(),
             "first_name": self.lineFirst.text().strip(),
             "last_name": self.lineLast.text().strip(),
             "gender": self.comboGender.currentText(),
@@ -313,6 +403,7 @@ class EditCollegeDialog(QDialog):
         form.setContentsMargins(16, 20, 16, 16)
 
         self.lineCode = QLineEdit(college["code"])
+        _apply_code_validator(self.lineCode)
         self.lineName = QLineEdit(college["name"])
         form.addRow("College Code:", self.lineCode)
         form.addRow("College Name:", self.lineName)
@@ -352,14 +443,24 @@ class EditProgramDialog(QDialog):
         form.setContentsMargins(16, 20, 16, 16)
 
         self.lineCode = QLineEdit(program["code"])
+        _apply_code_validator(self.lineCode)
         self.lineName = QLineEdit(program["name"])
+        _apply_name_validator(self.lineName)
         self.comboCollege = QComboBox()
+
+        coll_code = program["college_code"]
+        if _is_null(coll_code):
+            self.comboCollege.addItem(NULL_DISPLAY, NULL_DISPLAY)
         for c in colleges:
             self.comboCollege.addItem(f"{c['code']} - {c['name']}", c["code"])
+        matched = False
         for i in range(self.comboCollege.count()):
-            if self.comboCollege.itemData(i) == program["college_code"]:
+            if self.comboCollege.itemData(i) == coll_code:
                 self.comboCollege.setCurrentIndex(i)
+                matched = True
                 break
+        if not matched:
+            self.comboCollege.setCurrentIndex(0)
 
         form.addRow("Program Code:", self.lineCode)
         form.addRow("Program Name:", self.lineName)
@@ -395,6 +496,9 @@ class EstudyoApp(QtWidgets.QMainWindow):
         uic.loadUi("estudyo_main.ui", self)
         self.setWindowIcon(QIcon("icons/estudyo_logo.svg"))
 
+        self._current_programs = None
+        self._current_colleges = None
+
         self.setup_ui()
         self.setup_connections()
         self.load_initial_data()
@@ -406,6 +510,12 @@ class EstudyoApp(QtWidgets.QMainWindow):
         self.setup_table_properties(self.tableColleges)
         self.stackedWidget.setCurrentIndex(0)
         self.populate_combo_boxes()
+
+        _apply_student_id_validator(self.lineStudentId)
+
+        _apply_code_validator(self.lineCollegeCode)
+        _apply_code_validator(self.lineProgramCode)
+        _apply_name_validator(self.lineProgramName)
 
         # Load logo
         for path in ["icons/estudyo_logo.svg", "estudyo_logo.svg", "icons/estudyo_logo.png", "estudyo_logo.png"]:
@@ -503,7 +613,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
 
         /* ── Header ── */
         QFrame#headerFrame { background-color: #1a3a5c; }
-        QLabel#headerTitle { color: #e8f4fd; font-size: 26px; font-weight: bold; padding-left: 16px; }
+        QLabel#headerTitle { color: #1a3a5c; font-size: 26px; font-weight: bold; padding-left: 16px; }
 
         /* ── Table header ── */
         QHeaderView::section {
@@ -576,14 +686,35 @@ class EstudyoApp(QtWidgets.QMainWindow):
         if index == 0:
             self.load_students()
         elif index == 2:
+            self._current_programs = None
             self.load_programs()
         elif index == 3:
+            self._current_colleges = None
             self.load_colleges()
 
     def load_initial_data(self):
         self.load_colleges()
         self.load_programs()
         self.load_students()
+
+    def _make_null_item(self, val):
+        """Create a red, bold table item for null values."""
+        item = QTableWidgetItem(NULL_DISPLAY)
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        item.setForeground(QColor("#c62828"))
+        font = item.font()
+        font.setBold(True)
+        item.setFont(font)
+        return item
+
+    def _make_item(self, val):
+        """Create a standard or null table item based on value."""
+        normalized = val.strip().upper()
+        if normalized in ("-NULL-", "NULL", ""):
+            return self._make_null_item(val)
+        item = QTableWidgetItem(val)
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        return item
 
     #  Data loaders
     def load_students(self, students=None):
@@ -593,33 +724,29 @@ class EstudyoApp(QtWidgets.QMainWindow):
         for r, s in enumerate(students):
             self.tableStudents.insertRow(r)
             for c, val in enumerate([s["id"], s["first_name"], s["last_name"], s["program_code"], s["year_level"], s["gender"]]):
-                item = QTableWidgetItem(val)
-                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.tableStudents.setItem(r, c, item)
+                self.tableStudents.setItem(r, c, self._make_item(val))
 
     def load_programs(self, programs=None):
         if programs is None:
             programs = self.csv.read_programs()
+        self._current_programs = programs
         self.tablePrograms.setRowCount(0)
         for r, p in enumerate(programs):
             self.tablePrograms.insertRow(r)
             for c, val in enumerate([p["code"], p["name"], p["college_code"]]):
-                item = QTableWidgetItem(val)
-                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.tablePrograms.setItem(r, c, item)
+                self.tablePrograms.setItem(r, c, self._make_item(val))
 
     def load_colleges(self, colleges=None):
         if colleges is None:
             colleges = self.csv.read_colleges()
+        self._current_colleges = colleges
         self.tableColleges.setRowCount(0)
         for r, col in enumerate(colleges):
             self.tableColleges.insertRow(r)
             for c, val in enumerate([col["code"], col["name"]]):
-                item = QTableWidgetItem(val)
-                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.tableColleges.setItem(r, c, item)
+                self.tableColleges.setItem(r, c, self._make_item(val))
 
-    #  Dashboard
+    #  Dashboard / Students
     def search_students(self):
         field_map = {
             "Student ID": "id",
@@ -661,24 +788,31 @@ class EstudyoApp(QtWidgets.QMainWindow):
         year_level   = self.tableStudents.item(selected, 4).text()
         gender       = self.tableStudents.item(selected, 5).text()
 
+        if program_code.strip().upper() in ("-NULL-", "NULL"):
+            program_code = NULL_DISPLAY
+
         student = {
             "id": sid, "first_name": first_name, "last_name": last_name,
             "gender": gender, "program_code": program_code, "year_level": year_level
         }
         programs = self.csv.read_programs()
-        dialog = EditStudentDialog(self, student, programs)
+        all_students = self.csv.read_students()
+        dialog = EditStudentDialog(self, student, programs, all_students)
 
         if dialog.exec() == QDialog.DialogCode.Accepted:
             data = dialog.get_data()
-            if not all([data["first_name"], data["last_name"]]):
-                QMessageBox.warning(self, "Input Error", "First Name and Last Name cannot be empty.")
+            if not all([data["id"], data["first_name"], data["last_name"]]):
+                QMessageBox.warning(self, "Input Error", "Please fill in all input fields.")
                 return
-            self.csv.edit_student(
-                sid, data["first_name"], data["last_name"],
-                data["gender"], data["program_code"], data["year_level"]
-            )
-            QMessageBox.information(self, " Success", "Student updated successfully!")
-            self.load_students()
+            try:
+                self.csv.edit_student(
+                    sid, data["id"], data["first_name"], data["last_name"],
+                    data["gender"], data["program_code"], data["year_level"]
+                )
+                QMessageBox.information(self, " Success", "Student updated successfully!")
+                self.load_students()
+            except ValueError as e:
+                QMessageBox.warning(self, "Error", str(e))
 
     def delete_student_from_dashboard(self):
         selected = self.tableStudents.currentRow()
@@ -706,8 +840,14 @@ class EstudyoApp(QtWidgets.QMainWindow):
         year_level   = self.comboYearLevel.currentText()
 
         if not all([sid, first_name, last_name, gender, program_code]):
-            QMessageBox.warning(self, "Input Error", "Please fill in all fields.")
+            QMessageBox.warning(self, "Input Error", "Please fill in all input fields.")
             return
+
+        if not _validate_student_id_format(sid):
+            QMessageBox.warning(self, "Invalid ID",
+                                "Student ID must be in the format XXXX-XXXX (digits only, e.g. 2024-0001).")
+            return
+
         try:
             self.csv.add_student(sid, first_name, last_name, gender, program_code, year_level)
             QMessageBox.information(self, " Success", "Student added successfully!")
@@ -730,7 +870,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         name         = self.lineProgramName.text().strip()
         college_code = self.comboCollegeCode.currentData()
         if not all([code, name, college_code]):
-            QMessageBox.warning(self, "Input Error", "Please fill in all fields.")
+            QMessageBox.warning(self, "Input Error", "Please fill in all input fields.")
             return
         try:
             self.csv.add_program(code, name, college_code)
@@ -749,18 +889,21 @@ class EstudyoApp(QtWidgets.QMainWindow):
         code = self.tablePrograms.item(selected, 0).text()
         name = self.tablePrograms.item(selected, 1).text()
         college_code = self.tablePrograms.item(selected, 2).text()
+        if college_code.strip().upper() in ("-NULL-", "NULL"):
+            college_code = NULL_DISPLAY
         program = {"code": code, "name": name, "college_code": college_code}
         colleges = self.csv.read_colleges()
         dialog = EditProgramDialog(self, program, colleges)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             data = dialog.get_data()
             if not all([data["code"], data["name"]]):
-                QMessageBox.warning(self, "Input Error", "Program Code and Name cannot be empty.")
+                QMessageBox.warning(self, "Input Error", "Please fill in all input fields.")
                 return
             try:
                 self.csv.edit_program(code, data["code"], data["name"], data["college_code"])
                 QMessageBox.information(self, " Success", "Program updated successfully!")
-                self.load_programs()
+
+                self._refresh_programs_view()
                 self.populate_combo_boxes()
             except ValueError as e:
                 QMessageBox.warning(self, "Error", str(e))
@@ -779,7 +922,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         if reply == QMessageBox.StandardButton.Yes:
             self.csv.delete_program(code)
             QMessageBox.information(self, " Deleted", "Program deleted successfully!")
-            self.load_programs()
+            self._refresh_programs_view()
             self.populate_combo_boxes()
 
     def clear_program_form(self):
@@ -800,14 +943,25 @@ class EstudyoApp(QtWidgets.QMainWindow):
     def sort_programs_table(self):
         field_map = {"Program Code": "code", "Program Name": "name", "College Code": "college_code"}
         field = field_map.get(self.comboSortProgram.currentText(), "code")
-        self.load_programs(self.csv.sort_programs(field))
+        base = self._current_programs if self._current_programs is not None else self.csv.read_programs()
+        sorted_data = sorted(base, key=lambda p: p.get(field, "").lower())
+        self.load_programs(sorted_data)
+
+    def _refresh_programs_view(self):
+        """Re-apply current search then sort to refresh programs table."""
+        value = self.lineSearchProgram.text().strip()
+        if value:
+            results = self.csv.search_programs(value)
+        else:
+            results = self.csv.read_programs()
+        self.load_programs(results)
 
     #  Colleges
     def add_college(self):
         code = self.lineCollegeCode.text().strip().upper()
         name = self.lineCollegeName.text().strip()
         if not all([code, name]):
-            QMessageBox.warning(self, "Input Error", "Please fill in all fields.")
+            QMessageBox.warning(self, "Input Error", "Please fill in all input fields.")
             return
         try:
             self.csv.add_college(code, name)
@@ -830,12 +984,12 @@ class EstudyoApp(QtWidgets.QMainWindow):
         if dialog.exec() == QDialog.DialogCode.Accepted:
             data = dialog.get_data()
             if not all([data["code"], data["name"]]):
-                QMessageBox.warning(self, "Input Error", "College Code and Name cannot be empty.")
+                QMessageBox.warning(self, "Input Error", "Please fill in all input fields.")
                 return
             try:
                 self.csv.edit_college(code, data["code"], data["name"])
                 QMessageBox.information(self, " Success", "College updated successfully!")
-                self.load_colleges()
+                self._refresh_colleges_view()
                 self.populate_combo_boxes()
             except ValueError as e:
                 QMessageBox.warning(self, "Error", str(e))
@@ -855,7 +1009,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         if reply == QMessageBox.StandardButton.Yes:
             self.csv.delete_college(code)
             QMessageBox.information(self, " Deleted", "College deleted successfully!")
-            self.load_colleges()
+            self._refresh_colleges_view()
             self.populate_combo_boxes()
 
     def clear_college_form(self):
@@ -875,7 +1029,18 @@ class EstudyoApp(QtWidgets.QMainWindow):
     def sort_colleges_table(self):
         field_map = {"College Code": "code", "College Name": "name"}
         field = field_map.get(self.comboSortCollege.currentText(), "code")
-        self.load_colleges(self.csv.sort_colleges(field))
+        base = self._current_colleges if self._current_colleges is not None else self.csv.read_colleges()
+        sorted_data = sorted(base, key=lambda c: c.get(field, "").lower())
+        self.load_colleges(sorted_data)
+
+    def _refresh_colleges_view(self):
+        """Re-apply current search to refresh colleges table."""
+        value = self.lineSearchCollege.text().strip()
+        if value:
+            results = self.csv.search_colleges(value)
+        else:
+            results = self.csv.read_colleges()
+        self.load_colleges(results)
 
 
 def main():
