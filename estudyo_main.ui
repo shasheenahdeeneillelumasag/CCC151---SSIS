@@ -271,7 +271,7 @@ QPushButton:checked { background-color: rgba(100,181,246,0.18); border-left: 4px
          </string>
          </property>
          <property name="text">
-          <string>  Students</string>
+          <string>  Manage Students</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -288,7 +288,7 @@ QPushButton:checked { background-color: rgba(100,181,246,0.18); border-left: 4px
          </string>
          </property>
          <property name="text">
-          <string>  Programs</string>
+          <string>  Manage Programs</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -305,7 +305,7 @@ QPushButton:checked { background-color: rgba(100,181,246,0.18); border-left: 4px
          </string>
          </property>
          <property name="text">
-          <string>  Colleges</string>
+          <string>  Manage Colleges</string>
          </property>
          <property name="checkable">
           <bool>true</bool>

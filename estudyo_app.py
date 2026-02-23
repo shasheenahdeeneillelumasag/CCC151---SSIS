@@ -9,6 +9,8 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt, QRegularExpression
 from PyQt6.QtGui import QPixmap, QIcon, QRegularExpressionValidator, QColor
+from PyQt6.QtCore import QSize
+from PyQt6.QtGui import QIcon, QPixmap, QPainter
 
 # CSV file paths
 COLLEGES_CSV = "colleges.csv"
@@ -505,6 +507,14 @@ class EstudyoApp(QtWidgets.QMainWindow):
         self.load_initial_data()
         self.show()
 
+    def _white_icon(self, path):
+        pixmap = QPixmap(path)
+        painter = QPainter(pixmap)
+        painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
+        painter.fillRect(pixmap.rect(), Qt.GlobalColor.white)
+        painter.end()
+        return QIcon(pixmap)
+    
     def setup_ui(self):
         self.setup_table_properties(self.tableStudents)
         self.setup_table_properties(self.tablePrograms)
@@ -518,7 +528,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         _apply_code_validator(self.lineProgramCode)
         _apply_name_validator(self.lineProgramName)
 
-        # Load logo
+        # Logo/Icons
         for path in ["icons/estudyo_logo.svg", "estudyo_logo.svg", "icons/estudyo_logo.png", "estudyo_logo.png"]:
             if os.path.exists(path):
                 pixmap = QPixmap(path)
@@ -527,6 +537,18 @@ class EstudyoApp(QtWidgets.QMainWindow):
                 )
                 self.logoLabel.setScaledContents(False)
                 break
+
+        icon_map = {
+            self.btnManage:   ["student.svg",  "icons/student.svg"],
+            self.btnPrograms: ["program.svg",  "icons/program.svg"],
+            self.btnColleges: ["college.svg",  "icons/college.svg"],
+        }
+        for btn, paths in icon_map.items():
+            for path in paths:
+                if os.path.exists(path):
+                    btn.setIcon(self._white_icon(path))
+                    btn.setIconSize(QSize(20, 20))
+                    break
 
         self._apply_extra_styles()
 
