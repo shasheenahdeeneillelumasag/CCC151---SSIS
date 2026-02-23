@@ -496,6 +496,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         uic.loadUi("estudyo_main.ui", self)
         self.setWindowIcon(QIcon("icons/estudyo_logo.svg"))
 
+        self._current_students = None
         self._current_programs = None
         self._current_colleges = None
 
@@ -720,6 +721,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
     def load_students(self, students=None):
         if students is None:
             students = self.csv.read_students()
+        self._current_students = students
         self.tableStudents.setRowCount(0)
         for r, s in enumerate(students):
             self.tableStudents.insertRow(r)
@@ -773,7 +775,25 @@ class EstudyoApp(QtWidgets.QMainWindow):
             "Year Level": "year_level",
         }
         field = field_map.get(self.comboSortField.currentText(), "id")
-        self.load_students(self.csv.sort_students(field))
+        base = self._current_students if self._current_students is not None else self.csv.read_students()
+        sorted_data = sorted(base, key=lambda s: s.get(field, "").lower())
+        self.load_students(sorted_data)
+
+    def _refresh_students_view(self):
+        """Re-apply current search filter then reload — used after edit/delete."""
+        field_map = {
+            "Student ID": "id",
+            "First Name": "first_name",
+            "Last Name": "last_name",
+            "Program": "program_code",
+        }
+        value = self.lineSearchInput.text().strip()
+        if value:
+            field = field_map.get(self.comboSearchField.currentText(), "id")
+            results = self.csv.search_students(field, value)
+        else:
+            results = self.csv.read_students()
+        self.load_students(results)
 
     def edit_student_from_dashboard(self):
         selected = self.tableStudents.currentRow()
@@ -810,7 +830,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
                     data["gender"], data["program_code"], data["year_level"]
                 )
                 QMessageBox.information(self, " Success", "Student updated successfully!")
-                self.load_students()
+                self._refresh_students_view()
             except ValueError as e:
                 QMessageBox.warning(self, "Error", str(e))
 
@@ -828,7 +848,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
         if reply == QMessageBox.StandardButton.Yes:
             self.csv.delete_student(sid)
             QMessageBox.information(self, " Deleted", "Student deleted successfully!")
-            self.load_students()
+            self._refresh_students_view()
 
     #  Manage Students
     def add_student(self):
