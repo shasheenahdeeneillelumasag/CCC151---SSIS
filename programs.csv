@@ -1,9 +1,45 @@
 code,name,college_code
 BSIT,Bachelor of Science in Information Technology,CCS
 BSCS,Bachelor of Science in Computer Science,CCS
-BSMM,Bachelor of Science in Marketing Management,CEBA
-BSBIO (ANIMAL BIOLOGY),Bachelor of Science in Animal Biology,CSM
-BSCA,Bachelor of Science in Computer Application,CCS
+BSIS,Bachelor of Science in Information Systems,CCS
+BSCA,Bachelor of Science in Computer Applications,CCS
+BSECON,Bachelor of Science in Business Administration (Economics),CBAA
+BSBAEM,Bachelor of Science in Business Administration (Entrepreneurial Marketing),CBAA
+BSHRM,Bachelor of Science in Hotel and Restaurant Management,CBAA
+BSA,Bachelor of Science in Accountancy,CBAA
+BSEDBIO,Bachelor of Secondary Education (Biology),CED
+BSEDMATH,Bachelor of Secondary Education (Mathematics),CED
+BSEDMAPEH,Bachelor of Secondary Education (MAPEH),CED
+BSEDHLE,Bachelor of Secondary Education (TLE),CED
+BSEDGS,Bachelor of Secondary Education (General Science),CED
+BSEDCHEM,Bachelor of Secondary Education (Chemistry),CED
+BSEDPHYS,Bachelor of Secondary Education (Physics),CED
+BEEDENGL,Bachelor of Elementary Education (English),CED
+BEEDSH,Bachelor of Elementary Education (Science and Health),CED
+BSTTEIT,Bachelor of Science in Technology Teacher Education (Industrial Tech),CED
+BSTTEDT,Bachelor of Science in Technology Teacher Education (Drafting Tech),CED
+BSIEDRAFT,Bachelor of Science in Industrial Education (Drafting),CED
+BSCHEM,Bachelor of Science in Chemistry,CSM
+BSPHYS,Bachelor of Science in Physics,CSM
+BSMATH,Bachelor of Science in Mathematics,CSM
+BSSTAT,Bachelor of Science in Statistics,CSM
+BSBIO (ZOOLOGY),Bachelor of Science in Biology (Zoology),CSM
+BSBIO (MARINE),Bachelor of Science in Biology (Marine),CSM
+BSBIO (BOTANY),Bachelor of Science in Biology (Botany),CSM
+BSBIO (BIODIVERSITY), Bachelor of Science in Biology (Biodiversity), CSM
+BSCE,Bachelor of Science in Civil Engineering,COE
+BSCERE,Bachelor of Science in Ceramics Engineering,COE
+BSCHE,Bachelor of Science in Chemical Engineering,COE
+BSCpE,Bachelor of Science in Computer Engineering,COE
+BSECE,Bachelor of Science in Electronics & Communications Engineering,COE
+BSEE,Bachelor of Science in Electrical Engineering,COE
+BSMINE,Bachelor of Science in Mining Engineering,COE
+BSENVT,Bachelor of Science in Environmental Engineering Technology,COE
+BSME,Bachelor of Science in Mechanical Engineering,COE
+BSMETE,Bachelor of Science in Metallurgical Engineering,COE
 BAELS,Bachelor of Arts in English Language Studies,CASS
-BSCE,Bachelor of Science in Civil Engineering,CCS
-BSTRY,Bachelor of Science in Testing,CTRY
+BSPSY,Bachelor of Science in Psychology,CASS
+BAFIL,Bachelor of Arts in Filipino,CASS
+BAHIST,Bachelor of Arts in History,CASS
+BAPOLS,Bachelor of Arts in Political Science,CASS
+BSN,Bachelor of Science in Nursing,CN
