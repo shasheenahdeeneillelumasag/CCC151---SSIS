@@ -795,6 +795,7 @@ class EstudyoApp(QtWidgets.QMainWindow):
             "Last Name": "last_name",
             "Program": "program_code",
             "Year Level": "year_level",
+            "Gender": "gender"
         }
         field = field_map.get(self.comboSortField.currentText(), "id")
         base = self._current_students if self._current_students is not None else self.csv.read_students()

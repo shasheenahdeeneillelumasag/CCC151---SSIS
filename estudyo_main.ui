@@ -544,6 +544,11 @@ QPushButton:hover {
                     <string>Year Level</string>
                    </property>
                   </item>
+                  <item>
+                   <property name="text">
+                    <string>Gender</string>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                 <item>
