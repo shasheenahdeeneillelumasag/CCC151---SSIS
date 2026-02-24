@@ -307,7 +307,9 @@ class EditStudentDialog(QDialog):
         _apply_student_id_validator(self.lineId)
 
         self.lineFirst = QLineEdit(student["first_name"])
+        _apply_name_validator(self.lineFirst)
         self.lineLast = QLineEdit(student["last_name"])
+        _apply_name_validator(self.lineLast)
         self.comboGender = QComboBox()
         self.comboGender.addItems(["Male", "Female"])
         idx = self.comboGender.findText(student["gender"])
@@ -523,10 +525,11 @@ class EstudyoApp(QtWidgets.QMainWindow):
         self.populate_combo_boxes()
 
         _apply_student_id_validator(self.lineStudentId)
-
         _apply_code_validator(self.lineCollegeCode)
         _apply_code_validator(self.lineProgramCode)
         _apply_name_validator(self.lineProgramName)
+        _apply_name_validator(self.lineFirstName)
+        _apply_name_validator(self.lineLastName)
 
         # Logo/Icons
         for path in ["icons/estudyo_logo.svg", "estudyo_logo.svg", "icons/estudyo_logo.png", "estudyo_logo.png"]:
